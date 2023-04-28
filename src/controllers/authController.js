@@ -150,7 +150,7 @@ var returnPreferences=(req, res) => {
     });
   }
   res.status(200);
-  res.send("Successfully fetched preferences "+req.user[0].preferences[0]);
+  res.send("Successfully fetched preferences "+req.user[0].preferences);
   
 }
 

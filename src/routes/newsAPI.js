@@ -23,19 +23,26 @@ newsRoutes.get('/', verifyToken, (req, res) => {
     }
 
     newsapi.v2.everything({
-      q: req.user[0].preferences[1],
+      q: {...req.user[0].preferences},
       sources: 'bbc-news,the-verge',
-      domains: 'bbc.co.uk, techcrunch.com',
       language: 'en',
-      sortBy: 'relevancy',
       page: 1
     }).then(response => {
-      news=response;
+      news=JSON.parse(JSON.stringify(response));
+      console.log(response);
       // news=[...response];
     });
-    console.log(news);
+    
+    
+    // newsapi.v2.topHeadlines({
+  
+    //   category: req.user[0].preferences[0],
+    //   language: 'en',
+    // })
 
-    res.status(200).send(news);
+    console.log(news);
+    if(news==undefined) res.send("wait");
+    res.status(200).send(news.articles);
     
   });
 
