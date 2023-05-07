@@ -35,3 +35,9 @@ set the authorization header with token recieved from login route and send reque
 ## GET /news: Fetch news articles based on the logged-in user's preferences.<br>
 set authorization hearder with token revcieved from login route and send request it will fetch the response object that contains articles.
 if it shows wait click again.
+
+
+#updated news-aggregator-api contd.
+##created test folder and command to run that exist in package.json->scripts->npm test
+
+##the using pattern is same as above but added validation for input,xss-clean to sanitize input and implemented little cache that is it stores the id of last user that hit the news route to fetch news and if the same user hit route again rather than news api request sends stored result.
