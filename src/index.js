@@ -5,6 +5,7 @@ const jwt=require('jsonwebtoken');
 const bcrypt=require('bcrypt');
 const newsInfo = require('./routes/newsAPI');
 const routes=require('express').Router();
+const xss=require('xss-clean');
 const { setPreferences,returnPreferences,signin,signup} = require("./controllers/authController");
 var verifyToken = require('./middleware/authJWT');
 
@@ -29,15 +30,15 @@ routes.get('/',(req,res)=>{
     res.status(200).send("Welcome to News Aggregator API");
 })
 
-routes.use('/news', newsInfo);
+routes.use('/news',xss(), newsInfo);
 
 //Route to register user
-routes.post('/register', signup);
-routes.post('/signin', signin);
+routes.post('/register',xss(), signup);
+routes.post('/signin', xss(),signin);
 
-routes.get('/preferences', verifyToken, returnPreferences);
+routes.get('/preferences',xss(), verifyToken, returnPreferences);
 
-routes.post('/preferences', verifyToken, setPreferences);
+routes.post('/preferences', xss(), verifyToken, setPreferences);
 
 app.listen(process.env.PORT || PORT,(error)=>{
     if(!error)
@@ -46,3 +47,4 @@ app.listen(process.env.PORT || PORT,(error)=>{
         console.log("Error occured, server can't start", error);
 });
 
+module.exports=app;

@@ -1,7 +1,15 @@
 const jwt = require("jsonwebtoken");
 const {Users}=require('../controllers/authController')
+const validator=require('../helpers/validator');
+
 
 const verifyToken = (req, res, next) => {
+
+  // if(!validator.validateUserInfo(req.user,Users)){
+  //   res.status(500).send(validator.validateUserInfo(req.user,Users).message);
+  // }
+
+
   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
     jwt.verify(req.headers.authorization.split(' ')[1], process.env.API_SECRET, function (err, decode) {
       if (err)  {
@@ -29,4 +37,6 @@ const verifyToken = (req, res, next) => {
     next();
   }
 };
+
+
 module.exports = verifyToken;

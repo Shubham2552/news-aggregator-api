@@ -1,6 +1,7 @@
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcrypt");
 var verifyToken=require("../middleware/authJWT");
+const validator=require('../helpers/validator');
 
 let Users=[
     {
@@ -19,13 +20,21 @@ var signup = (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8)
   };
+  
+  console.log(validator.validateUserInfo(req.body,Users).message);
 
-  if(Users.push(user)==Users.length){
-    res.status(200).send({message:"user Registered successfully"})
+  if(!(validator.validateUserInfo(req.body,Users).status)){
+    res.status(500).send(validator.validateUserInfo(req.body,Users));
+  }else{
+    if(Users.push(user)==Users.length){
+      res.status(200).send({message:"user Registered successfully"})
+    }
+    else{
+      res.status(500).send("Error");
+    }
   }
-  else{
-    res.status(500).send("Error");
-  }
+
+
 //   Users.push(user).then(data => {
 //     res.status(200)
 //     .send({
